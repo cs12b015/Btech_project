@@ -3,6 +3,9 @@
 var fs = require('fs');
 var vert_numb=0;
 var curnum=0;
+var os = require('os');
+
+
 
 var Edge = function(source, sink, capacity) {
     this.source = source;
@@ -115,14 +118,14 @@ function minVertex(dist,v){
 var g = new Graph();
 
 
-fs.readFile('data/twitter_nodes.txt', function(err, data) {
+fs.readFile('data/Wikivote_nodes.txt', function(err, data) {
     if(err) throw err;
     var array = data.toString().split("\n");
     vert_numb = array.length;
     for(i in array) {
         g.addNode(array[i]);
     }
-    fs.readFile('data/twitter_edges.txt', function(err, data) {
+    fs.readFile('data/Wikivote_edges.txt', function(err, data) {
         if(err) throw err;
         var array = data.toString().split("\n");
 
@@ -130,11 +133,14 @@ fs.readFile('data/twitter_nodes.txt', function(err, data) {
             var fst = array[i].split(" ")[0];
             var snd = array[i].split(" ")[1];
             var thrd =parseInt(array[i].split(" ")[2]);
+
             g.addEdge(fst,snd,thrd);  
         }
 
         var result = Prim(g);
         printresult(result);
+        
+        console.log(os.totalmem()-os.freemem());
     });
 });
 function printresult(dist){

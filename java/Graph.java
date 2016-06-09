@@ -49,7 +49,7 @@ public class Graph {
 
    public static void main (String args[]) throws IOException{
       ArrayList<String> nodelabels = new ArrayList<String>();
-      BufferedReader br = new BufferedReader(new FileReader("data/twitter_nodes.txt"));
+      BufferedReader br = new BufferedReader(new FileReader("data/Wikivote_nodes.txt"));
       String line= null;
       while((line = br.readLine()) != null){
          nodelabels.add(line.trim());
@@ -61,7 +61,7 @@ public class Graph {
       for(int i=0;i<num_nodes;i++){
          t.addNode(nodelabels.get(i));
       }
-      br = new BufferedReader(new FileReader("data/twitter_edges.txt"));
+      br = new BufferedReader(new FileReader("data/Wikivote_edges.txt"));
       line= null;
       while((line = br.readLine()) != null){
     	  line=line.trim();
@@ -80,6 +80,12 @@ public class Graph {
      	  totalwt=totalwt+pred[i];
       }
       System.out.println("Total wt of tree is "+totalwt);
+      Runtime runtime = Runtime.getRuntime();
+      // Run the garbage collector
+      runtime.gc();
+      // Calculate the used memory
+      long memory = runtime.totalMemory() - runtime.freeMemory();
+      System.out.println("Used memory is bytes: " + memory);
    }
 
 }

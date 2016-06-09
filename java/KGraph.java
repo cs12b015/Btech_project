@@ -58,7 +58,7 @@ public class KGraph {
 
    public static void main (String args[]) throws IOException{
       ArrayList<String> nodelabels = new ArrayList<String>();
-      BufferedReader br = new BufferedReader(new FileReader("data/fb_nodes.txt"));
+      BufferedReader br = new BufferedReader(new FileReader("data/Wikivote_nodes.txt"));
       String line= null;
       while((line = br.readLine()) != null){
          nodelabels.add(line.trim());
@@ -70,7 +70,7 @@ public class KGraph {
       for(int i=0;i<num_nodes;i++){
          t.addNode(nodelabels.get(i));
       }
-      br = new BufferedReader(new FileReader("data/fb_edges.txt"));
+      br = new BufferedReader(new FileReader("data/Wikivote_edges.txt"));
       line= null;
       while((line = br.readLine()) != null){
     	  line=line.trim();
@@ -95,6 +95,12 @@ public class KGraph {
      	  totalwt=totalwt+pred.get(i).capacity;
       }
       System.out.println("Total wt of tree is "+totalwt);
+      Runtime runtime = Runtime.getRuntime();
+      // Run the garbage collector
+      runtime.gc();
+      // Calculate the used memory
+      long memory = runtime.totalMemory() - runtime.freeMemory();
+      System.out.println("Used memory is bytes: " + memory);
    }
 
 }

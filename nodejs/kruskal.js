@@ -28,6 +28,7 @@ var Graph = function() {
     // Add an edge from source to sink with capacity
     this.addEdge = function(source, sink, capacity) {
         // Create the two edges = one being the reverse of the other    
+        //console.log(source);
         this.edges[source].push(new Edge(source, sink, capacity));
         this.edges[sink].push(new Edge(sink, source, capacity));
         this.edgearray.push(new Edge(source, sink, capacity));
@@ -111,7 +112,9 @@ fs.readFile('data/fb_nodes.txt', function(err, data) {
             var fst = array[i].split(" ")[0];
             var snd = array[i].split(" ")[1];
             var thrd =parseInt(array[i].split(" ")[2]);
-            g.addEdge(fst,snd,thrd);  
+            
+            //console.log(fst+" "+snd+" "+thrd); 
+            g.addEdge(fst,snd,thrd); 
         }
 
         g.edgearray=ksort(g.edgearray, function(a, b){ return a.capacity < b.capacity;});
