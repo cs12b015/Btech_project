@@ -1,7 +1,14 @@
-public class Prim {
+import java.util.ArrayList;
 
+public class Prim {
+   public static int count=0;
+   public static int totaln=0;
    // Prim-Jarník's algorithm to find MST rooted at s
-   public static int [] prim (PrimsGraph G, int s) {
+   public static int [] prim (Graph G, int s) {
+	  ArrayList<String> graph_nodes = G.nodes;
+	  int size = graph_nodes.size();
+     totaln=size;
+	  
       final int [] dist = new int [G.size()];  // shortest known distance to MST
       final int [] pred = new int [G.size()];  // preceeding node in tree
       final boolean [] visited = new boolean [G.size()]; // all false initially
@@ -17,11 +24,11 @@ public class Prim {
          visited[next] = true;
          
          // The edge from pred[next] to next is in the MST (if next!=s)
-         //System.out.println("jjjjj"+next);
-         final int [] n = G.neighbors (next);
+         final int [] n = G.neighbors (graph_nodes.get(next));
          for (int j=0; j<n.length; j++) {
             final int v = n[j];
-            final int d = G.getWeight(next,v);
+            
+            final int d = G.isEdge(graph_nodes.get(next), graph_nodes.get(v)).capacity;
             if (dist[v] > d) {
             	resedges[v]=next+" "+v+" "+d;
             	dist[v] = d;
@@ -42,6 +49,8 @@ public class Prim {
       for (int i=0; i<dist.length; i++) {
          if (!v[i] && dist[i]<x) {y=i; x=dist[i];}
       }
+      count++;
+      System.out.print(((count*100)/totaln)+"  percent completed");
       return y;
    }
 }
