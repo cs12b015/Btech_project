@@ -49,7 +49,7 @@ public class Graph {
 
    public static void main (String args[]) throws IOException{
       ArrayList<String> nodelabels = new ArrayList<String>();
-      BufferedReader br = new BufferedReader(new FileReader("data/Wikivote_nodes.txt"));
+      BufferedReader br = new BufferedReader(new FileReader("data/fb_nodes.txt"));
       String line= null;
       while((line = br.readLine()) != null){
          nodelabels.add(line.trim());
@@ -61,7 +61,7 @@ public class Graph {
       for(int i=0;i<num_nodes;i++){
          t.addNode(nodelabels.get(i));
       }
-      br = new BufferedReader(new FileReader("data/Wikivote_edges.txt"));
+      br = new BufferedReader(new FileReader("data/fb_edges.txt"));
       line= null;
       while((line = br.readLine()) != null){
     	  line=line.trim();
@@ -74,10 +74,10 @@ public class Graph {
       
      
       System.out.println("Starting");
-      final int [] pred = Prim.prim (t, 0);
+      final ArrayList<Integer> caparray = Prim.prim (t, 0);
       int totalwt=0;
-      for(int i=0;i<pred.length;i++){
-     	  totalwt=totalwt+pred[i];
+      for(int i=0;i<caparray.size();i++){
+     	  totalwt=totalwt+caparray.get(i);
       }
       System.out.println("Total wt of tree is "+totalwt);
       Runtime runtime = Runtime.getRuntime();

@@ -73,6 +73,7 @@ var Kruskal=function(graph){
     var nodes_array = graph.nodes;
     var ind=0;
     while(resedges.length<numnodes-1){
+    	//console.log(ind);
         var curedge=graph.edgearray[ind];
         var srclookup = graph.lookup[curedge.source];
         var snklookup = graph.lookup[curedge.sink];
@@ -97,14 +98,14 @@ var g = new Graph();
 
 
 
-fs.readFile('data/fb_nodes.txt', function(err, data) {
+fs.readFile('data/Wikivote_nodes.txt', function(err, data) {
     if(err) throw err;
     var array = data.toString().split("\n");
     vert_numb = array.length;
     for(i in array) {
         g.addNode(array[i]);
     }
-    fs.readFile('data/fb_edges.txt', function(err, data) {
+    fs.readFile('data/Wikivote_edges.txt', function(err, data) {
         if(err) throw err;
         var array = data.toString().split("\n");
 
@@ -119,6 +120,7 @@ fs.readFile('data/fb_nodes.txt', function(err, data) {
 
         g.edgearray=ksort(g.edgearray, function(a, b){ return a.capacity < b.capacity;});
                
+        
         var result = Kruskal(g);
         printresult(result);
     });
@@ -126,7 +128,8 @@ fs.readFile('data/fb_nodes.txt', function(err, data) {
 function printresult(dist){
     var totwt=0;
     for(var i=0;i<dist.length;i++){
+        console.log(dist[i].source+" "+dist[i].sink);
         totwt+=dist[i].capacity;
     }
-    console.log("total weight of tree is "+totwt);
+    //console.log("total weight of tree is "+totwt);
 }

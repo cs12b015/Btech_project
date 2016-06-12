@@ -69,34 +69,38 @@ function Prim(graph){
     var dist=[];
     var pred=[];
     var visited = [];
+    var caparray =[];
     var resedges =[];
     for(var i=0;i<size;i++){
         dist[i]=9999;
         pred[i]="";
         visited[i]=0;
-        resedges[i]="";
     }
     var s= Math.round(Math.random()*(graph.nodes.length-1));
     dist[s]=0;
     for(var i=0;i<size;i++){
         var next = minVertex(dist,visited);
         visited[next]=1;
+        if(i>0){
+        	var d1 = graph.edgeExists(graph_nodes[pred[next]],graph_nodes[next]).capacity;
+        	caparray.push(d1);
+        	resedges.push(graph_nodes[pred[next]]+" "+graph_nodes[next]+" "+d1);
+        }
         var n = graph.neighbours(graph_nodes[next]);
         for(var j=0;j<n.length;j++){
             var v = n[j];
             var d = graph.edgeExists(graph_nodes[next],graph_nodes[v]).capacity;
             if(dist[v]>d){
-                resedges[v]=graph_nodes[next]+" "+graph_nodes[v]+" "+d;
                 dist[v]=d;
                 pred[v]=graph_nodes[next];
             }
         }
     }
 
-    for(var i=1;i<resedges.length;i++){
-      //console.log(resedges[i]);
+    for(var i=0;i<resedges.length;i++){
+      console.log(resedges[i]);
     }
-    return dist;
+    return caparray;
 }
 function minVertex(dist,v){
     var x=9999;
@@ -111,21 +115,21 @@ function minVertex(dist,v){
     var percent=(curnum/vert_numb)*10000;
     percent=Math.ceil(percent);
     percent=percent/100;
-    process.stdout.write( percent + " percent completed\r");
+    //process.stdout.write( percent + " percent completed\r");
     return y;
 }
 
 var g = new Graph();
 
 
-fs.readFile('data/Wikivote_nodes.txt', function(err, data) {
+fs.readFile('data/fb_nodes.txt', function(err, data) {
     if(err) throw err;
     var array = data.toString().split("\n");
     vert_numb = array.length;
     for(i in array) {
         g.addNode(array[i]);
     }
-    fs.readFile('data/Wikivote_edges.txt', function(err, data) {
+    fs.readFile('data/fb_edges.txt', function(err, data) {
         if(err) throw err;
         var array = data.toString().split("\n");
 
@@ -140,7 +144,7 @@ fs.readFile('data/Wikivote_nodes.txt', function(err, data) {
         var result = Prim(g);
         printresult(result);
         
-        console.log(os.totalmem()-os.freemem());
+        //console.log(os.totalmem()-os.freemem());
     });
 });
 function printresult(dist){
